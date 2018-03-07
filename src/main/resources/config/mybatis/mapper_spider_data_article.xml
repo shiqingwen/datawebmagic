@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="T.SpiderDataArticle">
+    <resultMap id="BaseResultMap" type="com.webmagic.web.model.SpiderDataArticle" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+        <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, school_id, category_id, url, title, content ,publish_time, create_time
+    </sql>
+    <insert id="insert" parameterType="com.webmagic.web.model.SpiderDataArticle" >
+    insert into spider_data_article (school_id, category_id,
+      url, title, publish_time,
+      create_time, content)
+    values (#{schoolId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+      #{url,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP},
+      NOW(), #{content,jdbcType=VARCHAR})
+  </insert>
+
+    <select id="getBySchoolIdAndUrl" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from spider_data_article
+        where school_id = #{schoolId,jdbcType=INTEGER}
+        AND url = #{url,jdbcType=VARCHAR}
+        AND category_id = #{categoryId,jdbcType=INTEGER}
+        limit 1
+    </select>
+</mapper>

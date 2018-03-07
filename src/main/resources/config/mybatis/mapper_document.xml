@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="T.Document" >
+  <resultMap id="BaseResultMap" type="com.webmagic.web.model.Document" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="CHAR" />
+    <result column="title" property="title" jdbcType="CHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="CHAR" />
+    <result column="root" property="root" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="position" property="position" jdbcType="SMALLINT" />
+    <result column="link_id" property="linkId" jdbcType="INTEGER" />
+    <result column="cover_id" property="coverId" jdbcType="INTEGER" />
+    <result column="display" property="display" jdbcType="TINYINT" />
+    <result column="deadline" property="deadline" jdbcType="INTEGER" />
+    <result column="attach" property="attach" jdbcType="TINYINT" />
+    <result column="view" property="view" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="INTEGER" />
+    <result column="extend" property="extend" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+    <result column="praise" property="praise" jdbcType="INTEGER" />
+    <result column="school_lx" property="schoolLx" jdbcType="VARCHAR" />
+    <result column="recruit_lx" property="recruitLx" jdbcType="VARCHAR" />
+    <result column="custom" property="custom" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, uid, `name`, title, category_id, picture, description, root, pid, model_id, `type`,
+    position, link_id, cover_id, display, deadline, attach, `view`, comment, extend, `level`,
+    create_time, update_time, status, school_id, praise, school_lx, recruit_lx, custom
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from onethink_document
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from onethink_document
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.webmagic.web.model.Document" useGeneratedKeys="true" keyProperty="id">
+    insert into onethink_document (title,category_id,create_time,status, school_id,capture_desc,capture_status)
+    values ( #{title,jdbcType=CHAR},#{categoryId,jdbcType=INTEGER},#{createTime,jdbcType=INTEGER},
+      -1, #{schoolId,jdbcType=INTEGER},#{captureDesc,jdbcType=VARCHAR},1)
+  </insert>
+</mapper>

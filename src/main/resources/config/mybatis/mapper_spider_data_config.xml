@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="T.spiderDateConfig">
+    <resultMap id="result" type="com.webmagic.web.model.SpiderDataConfig">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+        <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+        <result column="domain" property="domain" jdbcType="VARCHAR" />
+        <result column="page_url" property="pageUrl" jdbcType="VARCHAR" ></result>
+        <result column="rule_list_page_url" property="rulePageListUrl" jdbcType="VARCHAR" ></result>
+        <result column="rule_list_page_title" property="rulePageListTitle" jdbcType="TIMESTAMP" />
+        <result column="rule_title" property="ruleTitle" jdbcType="VARCHAR" />
+        <result column="rule_time" property="ruleTime" jdbcType="VARCHAR" />
+        <result column="rule_content" property="ruleContent" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+        <result column="name" property="categoryName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="spiderDataConfigVO" type="com.webmagic.web.model.vo.SpiderDataConfigVO">
+        <result column="school_id" property="schoolId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="domain" property="domian" jdbcType="VARCHAR"/>
+        <result column="page_url" property="pageUrl" jdbcType="VARCHAR"/>
+        <result column="rule_list_page_url" property="ruleListPageUrl" jdbcType="VARCHAR"/>
+        <result column="rule_list_page_title" property="ruleListPageTitle" jdbcType="VARCHAR"/>
+        <result column="rule_title" property="ruleTitle" jdbcType="VARCHAR"/>
+        <result column="rule_time" property="ruleTime" jdbcType="VARCHAR"/>
+        <result column="rule_content" property="ruleContent" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryAllSpiderConfig" resultMap="spiderDataConfigVO" >
+        SELECT
+        school_id ,category_id ,domain , page_url , rule_list_page_url , rule_list_page_title,rule_title,
+        rule_time,rule_content
+        FROM
+        spider_data_config
+        WHERE
+        status = 1
+    </select>
+
+    <insert id="insertSpiderConfig" parameterType="com.webmagic.web.model.SpiderDataConfig">
+        INSERT INTO spider_data_config
+        ( school_id ,category_id,domain,page_url,rule_list_page_url,rule_list_page_title,rule_title,
+            rule_time,rule_content,create_time,status)
+        VALUES
+            ((SELECT school_id from t_school WHERE school_name=#{schoolName}),#{categoryId}, #{domain}, #{pageUrl}, #{rulePageListUrl}, #{rulePageListTile}, #{ruleTitle}, #{ruleTime},
+            #{ruleContent},now(),1)
+    </insert>
+
+    <resultMap id="SchoolResult" type="com.webmagic.web.model.vo.SchoolVO">
+        <result column="school_name" property="schoolName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getBySchoolId" parameterType="java.lang.Integer" resultMap="SchoolResult">
+        SELECT school_name FROM t_school WHERE school_id = #{schoolId}
+    </select>
+
+</mapper>
